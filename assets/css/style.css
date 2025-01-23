@@ -81,19 +81,3 @@ footer {
     padding: 20px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
 }
-
-/* Curseur clignotant */
-@keyframes blink {
-    50% {
-        opacity: 0;
-    }
-}
-
-.cursor {
-    display: inline-block;
-    width: 10px;
-    height: 20px;
-    background-color: #00ff00;
-    margin-left: 5px;
-    animation: blink 1s step-end infinite;
-}
