@@ -1,14 +1,15 @@
-/* Corps global */
-body {
-    font-family: Consolas, "Courier New", monospace;
+html, body {
+    height: 100%;
     margin: 0;
     padding: 0;
+    font-family: Consolas, "Courier New", monospace;
     color: #d4d4d4;
-    background-color: #03005f;
+    background-color: #2e2357;
     line-height: 1.6;
+    display: flex;
+    flex-direction: column;
 }
 
-/* Header */
 header {
     background: #121212;
     padding: 1rem 0;
@@ -28,7 +29,7 @@ header ul li {
 }
 
 header ul li a {
-    color: #00ff00; /* Vert style terminal */
+    color: #00ff00;
     text-decoration: none;
     transition: color 0.3s ease;
 }
@@ -37,8 +38,8 @@ header ul li a:hover {
     color: #00b300;
 }
 
-/* Sections principales */
 main {
+    flex: 1;
     padding: 2rem;
     text-align: center;
 }
@@ -63,16 +64,15 @@ a:hover {
     color: #00b300;
 }
 
-/* Footer */
 footer {
     background: #121212;
     color: #d4d4d4;
     text-align: center;
     padding: 1rem 0;
     border-top: 2px solid #444;
+    width: 100%;
 }
 
-/* Blocs de contenu (simule un terminal) */
 .container {
     max-width: 800px;
     margin: auto;
@@ -80,4 +80,64 @@ footer {
     border: 1px solid #444;
     padding: 20px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+}
+
+
+.container ul {
+    list-style-type: disc; 
+    padding-left: 20px; 
+    margin-bottom: 10px; 
+}
+
+.container ul li {
+    margin: 8px 0; 
+    display: flex;
+    align-items: center;
+}
+
+.container ul li::before {
+    content: "•"; 
+    color: #00ff00; 
+    font-size: 1.2em;
+    margin-right: 10px; 
+}
+
+
+.container ul li {
+    margin: 5px 0;
+}
+
+
+.project {
+    background: #1a1a1a;
+    border: 1px solid #444;
+    padding: 20px;
+    margin: 20px 0;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.project h2 {
+    color: #00ff00;
+    margin-top: 0;
+}
+
+.project p {
+    margin: 5px 0;
+}
+
+.project a {
+    color: #00ff00;
+    text-decoration: none;
+    margin-right: 15px;
+    transition: color 0.3s ease;
+}
+
+project a:hover {
+    color: #00b300;
+}
+
+.project:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 0 15px rgba(0, 255, 0, 0.5);
 }
