@@ -59,6 +59,23 @@ a {
     transition: color 0.3s ease;
 }
 
+.main-image-container {
+    text-align: center; /* Centre le contenu à l'intérieur du conteneur */
+    margin: 2rem 0;     /* Un peu d'espace au-dessus et en-dessous */
+  }
+  
+  .main-image {
+    max-width: 80%;  /* Ajuste la taille maximale en fonction de la largeur de l'écran */
+    height: auto;    /* Conserve les proportions de l'image */
+    border: 1px solid #444; /* Optionnel : pour ajouter une bordure qui s'harmonise avec ton design */
+    border-radius: 5px;     /* Optionnel : pour des coins arrondis */
+    transition: transform 0.3s ease;
+  }
+  
+  .main-image:hover {
+    transform: scale(1.02); /* Légère animation au survol */
+  }
+  
 a:hover {
     color: #00b300;
 }
