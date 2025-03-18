@@ -1,46 +1,56 @@
 ---
-title: "Mon homelab"
-date: 2025-03-06
+title: "My Homelab"
+date: 2025-03-18
 ---
 
-# Découverte du Homelab : Guide et Premiers Pas
+# My Homelab Network
 
-Bienvenue dans cet article de test consacré à l'univers du **homelab**. Que vous soyez passionné d'informatique ou en quête d'un environnement d'expérimentation, cet article vous offre un aperçu des concepts et des étapes pour démarrer.
+## What is a Homelab
+A homelab is a personal IT environment that allows you to test, experiment, and learn about various technologies. It is usually a home-based setup where you can configure servers, networks, and various services.
 
-## Qu'est-ce qu'un Homelab ?
 
-Un *homelab* est un environnement informatique personnel qui permet de tester, expérimenter et se former sur différentes technologies. Il s'agit généralement d'une installation à domicile où vous pouvez configurer des serveurs, des réseaux et des services divers sans impacter un environnement de production.
+1. **Internet**: Represented by the globe at the top, indicating the WAN (Wide Area Network) connection.
+2. **Router**: Receives the internet connection and provides both wired and wireless (Wi-Fi) access.
+3. **Wireless Laptop**: Thinkpad 470s with Debian 12. Connected to my network via Wi-Fi.
+4. **pfSense Firewall**: VM in Proxmox. Acts as the main firewall, managing traffic between the internet and my internal network.
+5. **Switch**: TP-Link TL-R470t+. Distributes the network connection to various devices.
+6. **Windows Machine**: My main PC for managing my network.
+7. **Synology NAS**:  2 x 2To. A Network-Attached Storage device for centralized file storage and backups.
+8. **Homelab Server**: Intel NUC Mini PC. Hosts several virtual machines (VMs) and Linux containers (LXC). Each VM/container runs a specific service.
 
-## Pourquoi se lancer dans un Homelab ?
+Below are short definitions of each service I'm hosting:
 
-- **Expérimentation sans risque :** Testez des configurations et des logiciels en toute sécurité.
-- **Acquisition de compétences :** Développez vos compétences en administration, virtualisation, et réseau.
-- **Projets personnels :** Hébergez des services tels que des sites web, des bases de données ou des applications multimédias.
+## Services Overview
 
-## Les Composantes d'un Homelab
+### VM
 
-1. **Serveurs Physiques ou Virtuels :**  
-   Utilisez du matériel existant ou des solutions de virtualisation (comme VirtualBox, VMware ou Proxmox) pour créer vos environnements de test.
-2. **Infrastructure Réseau :**  
-   Configurez un routeur, des switchs et éventuellement un firewall pour simuler un réseau d'entreprise.
-3. **Stockage de Données :**  
-   Prévoyez des disques durs ou des SSD pour stocker vos fichiers, bases de données et sauvegardes.
-4. **Logiciels et Services :**  
-   Installez des services tels que des serveurs web (Apache, Nginx), des bases de données (MySQL, PostgreSQL), ou encore des outils de monitoring.
+1. **Minecraft Server**  
+   A dedicated game server hosting Minecraft worlds for multiplayer gameplay. It allows players to connect, build, explore, and collaborate in a shared environment.
 
-## Conseils pour Bien Commencer
+2. **Pi-Hole**  
+   A network-wide ad blocker and DNS sinkhole solution. It filters out advertising and tracking domains, improving privacy and reducing unwanted content across all devices on the network.
 
-- **Commencez Petit :**  
-  Ne cherchez pas à tout implémenter d'un coup. Lancez-vous avec un projet simple et ajoutez des services au fur et à mesure.
-- **Documentez Vos Configurations :**  
-  Tenez un journal de bord pour noter les configurations, les erreurs rencontrées et les solutions apportées.
-- **Rejoignez la Communauté :**  
-  Forums, groupes en ligne ou réseaux sociaux sont d'excellents moyens de partager vos expériences et d'apprendre des autres passionnés.
+3. **Windows Sandbox**  
+   A lightweight, isolated desktop environment provided by Windows. It’s typically used for testing software or files in a secure environment without affecting the main system.
 
-## Conclusion
+4. **CasaOS**  
+   A simple, community-driven home cloud system for personal data storage, application management, and smart home functions. It provides an easy-to-use web interface for managing services and apps. I'm hosting here Homarr, a dashboard to have all of my services in one place.
 
-Le homelab offre une excellente opportunité d'explorer et de maîtriser les technologies de l'information dans un environnement contrôlé. Que vous souhaitiez tester des logiciels, apprendre la virtualisation ou tout simplement vous amuser avec de nouveaux projets, le homelab est une aventure enrichissante qui s'adapte à vos ambitions.
+### LXC
+
+1. **Zoraxy**  
+   A customizable self-hosted proxy service. It allows you to easily manage and secure internal web services, offering features like SSL/TLS termination and authentication.
+
+2. **Jellyfin**  
+   An open-source media server that lets you manage and stream your movies, music, and TV shows to various devices.
+
+3. **Portainer**  
+   A management UI for Docker (and other container environments). It simplifies the deployment, management, and monitoring of containers through a user-friendly web interface. I'm hosting here Tailscale for reaching my homelab from anywhere.
+
+4. **Vikunja**  
+   An open-source task management and to-do list application. It helps organize tasks, projects, and notes.
 
 ---
 
-N'hésitez pas à partager vos retours et vos expériences en commentaire !
+By hosting these services on my homelab, I gain greater control, privacy, and flexibility compared to relying solely on third-party services. This setup allows for a robust environment tailored to my specific needs.
+

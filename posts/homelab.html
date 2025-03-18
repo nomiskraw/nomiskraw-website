@@ -12,7 +12,7 @@
             <ul>
                 <li><a href="../index.html">Home</a></li>
                 <li><a href="../projets.html">Projects</a></li>
-                <li><a href="../blog.html" >Blog</a></li>
+                <li><a href="../blog.html" class="active">Blog</a></li>
                 <li><a href="../about.html">About me</a></li>
                 <li><a href="../contact.html">Contact</a></li>
             </ul>
@@ -21,40 +21,83 @@
 
     <main>
         <div class="article">
-          <h1 id="discovering-homelab-guide-and-first-steps">Discovering the Homelab: Guide and First Steps</h1>
-          <p>Welcome to this article dedicated to the world of the <strong>homelab</strong>. Whether you are passionate about computing or seeking an experimental environment, this article offers you an overview of the concepts and the steps to get started.</p>
-          <h2 id="what-is-a-homelab">What is a Homelab?</h2>
-          <p>A <em>homelab</em> is a personal IT environment that allows you to test, experiment, and learn about various technologies. It is usually a home-based setup where you can configure servers, networks, and various services without affecting a production environment.</p>
-          <h2 id="why-start-a-homelab">Why Start a Homelab?</h2>
-          <ul>
-            <li><strong>Risk-free Experimentation:</strong> Test configurations and software safely.</li>
-            <li><strong>Skill Development:</strong> Enhance your skills in administration, virtualization, and networking.</li>
-            <li><strong>Personal Projects:</strong> Host services such as websites, databases, or multimedia applications.</li>
-          </ul>
-          <h2 id="components-of-a-homelab">Components of a Homelab</h2>
-          <ol type="1">
-            <li><strong>Physical or Virtual Servers:</strong><br />
-            Use existing hardware or virtualization solutions (such as VirtualBox, VMware, or Proxmox) to create your test environments.</li>
-            <li><strong>Network Infrastructure:</strong><br />
-            Set up a router, switches, and possibly a firewall to simulate a business network.</li>
-            <li><strong>Data Storage:</strong><br />
-            Use hard drives or SSDs to store your files, databases, and backups.</li>
-            <li><strong>Software and Services:</strong><br />
-            Install services such as web servers (Apache, Nginx), databases (MySQL, PostgreSQL), or monitoring tools.</li>
-          </ol>
-          <h2 id="tips-for-getting-started">Tips for Getting Started</h2>
-          <ul>
-            <li><strong>Start Small:</strong><br />
-            Don’t try to implement everything at once. Begin with a simple project and gradually add services.</li>
-            <li><strong>Document Your Configurations:</strong><br />
-            Keep a log to note your configurations, any errors encountered, and the solutions you applied.</li>
-            <li><strong>Join the Community:</strong><br />
-            Forums, online groups, and social networks are great ways to share your experiences and learn from other enthusiasts.</li>
-          </ul>
-          <h2 id="conclusion">Conclusion</h2>
-          <p>The homelab offers an excellent opportunity to explore and master information technology in a controlled environment. Whether you want to test software, learn virtualization, or simply have fun with new projects, a homelab is a rewarding adventure that adapts to your ambitions.</p>
+          <h1 id="my-homelab-network">My Homelab Network</h1>
+          <h2 id="what-is-a-homelab">What is a Homelab</h2>
+          <p>A homelab is a personal IT environment that allows you to
+          test, experiment, and learn about various technologies. It is
+          usually a home-based setup where you can configure servers,
+          networks, and various services.</p>
           <hr />
-          <p>Feel free to share your feedback and experiences in the comments!</p>
+          <img src="../assets/images/homelab.PNG" alt="Homelab Diagram" style="max-width:500px; display:block; margin: 30px auto;">
+          <ol type="1">
+          <li><strong>Internet</strong>: Represented by the globe at the
+          top, indicating the WAN (Wide Area Network) connection.</li>
+          <li><strong>Router</strong>: Receives the internet connection
+          and provides both wired and wireless (Wi-Fi) access.</li>
+          <li><strong>Wireless Laptop</strong>: Thinkpad 470s with
+          Debian 12. Connected to my network via Wi-Fi.</li>
+          <li><strong>pfSense Firewall</strong>: VM in Proxmox. Acts as
+          the main firewall, managing traffic between the internet and
+          my internal network.</li>
+          <li><strong>Switch</strong>: TP-Link TL-R470t+. Distributes
+          the network connection to various devices.</li>
+          <li><strong>Windows Machine</strong>: My main PC for managing
+          my network.</li>
+          <li><strong>Synology NAS</strong>: 2 x 2To. A Network-Attached
+          Storage device for centralized file storage and backups.</li>
+          <li><strong>Homelab Server</strong>: Intel NUC Mini PC. Hosts
+          several virtual machines (VMs) and Linux containers (LXC).
+          Each VM/container runs a specific service.</li>
+          </ol>
+          <p>Below are short definitions of each service I’m
+          hosting:</p>
+          <h2 id="services-overview">Services Overview</h2>
+          <h3 id="vm">VM</h3>
+          <ol type="1">
+          <li><p><strong>Minecraft Server</strong><br />
+          A dedicated game server hosting Minecraft worlds for
+          multiplayer gameplay. It allows players to connect, build,
+          explore, and collaborate in a shared environment.</p></li>
+          <li><p><strong>Pi-Hole</strong><br />
+          A network-wide ad blocker and DNS sinkhole solution. It
+          filters out advertising and tracking domains, improving
+          privacy and reducing unwanted content across all devices on
+          the network.</p></li>
+          <li><p><strong>Windows Sandbox</strong><br />
+          A lightweight, isolated desktop environment provided by
+          Windows. It’s typically used for testing software or files in
+          a secure environment without affecting the main
+          system.</p></li>
+          <li><p><strong>CasaOS</strong><br />
+          A simple, community-driven home cloud system for personal data
+          storage, application management, and smart home functions. It
+          provides an easy-to-use web interface for managing services
+          and apps. I’m hosting here Homarr, a dashboard to have all of
+          my services in one place.</p></li>
+          </ol>
+          <h3 id="lxc">LXC</h3>
+          <ol type="1">
+          <li><p><strong>Zoraxy</strong><br />
+          A customizable self-hosted proxy service. It allows you to
+          easily manage and secure internal web services, offering
+          features like SSL/TLS termination and authentication.</p></li>
+          <li><p><strong>Jellyfin</strong><br />
+          An open-source media server that lets you manage and stream
+          your movies, music, and TV shows to various devices.</p></li>
+          <li><p><strong>Portainer</strong><br />
+          A management UI for Docker (and other container environments).
+          It simplifies the deployment, management, and monitoring of
+          containers through a user-friendly web interface. I’m hosting
+          here Tailscale for reaching my homelab from anywhere.</p></li>
+          <li><p><strong>Vikunja</strong><br />
+          An open-source task management and to-do list application. It
+          helps organize tasks, projects, and notes.</p></li>
+          </ol>
+          <hr />
+          <p>By hosting these services on my homelab, I gain greater
+          control, privacy, and flexibility compared to relying solely
+          on third-party services. This setup allows for a robust
+          environment tailored to my specific needs.</p>
         </div>
     </main>
 
