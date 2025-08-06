@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title></title>
+    <link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body>
+    <header>
+        <nav>
+            <ul>
+                <li><a href="../index.html">Home</a></li>
+                <li><a href="../projets.html">Projects</a></li>
+                <li><a href="../blog.html" class="active">Blog</a></li>
+                <li><a href="../about.html">About me</a></li>
+                <li><a href="../contact.html">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <div class="article">
+          <h2 id="ctf2025---docker-flag">404CTF2025 - Docker Flag</h2>
+          <p>In the Forensic category of the 404CTF, a challenge called
+          “Docker Flag”.</p>
+          <p>Description :</p>
+          <p>French : “En vous baladant sur le système informatique du
+          vaisseau, vous tombez sur un vieux projet réalisé il y a bien
+          longtemps, dans une galaxie lointaine, très lointaine. Le
+          projet avait été arrêté assez rapidement et supprimé de votre
+          Gitlab interne, mais peut-être que l’image Docker du site web
+          que vous avez en votre possession a encore quelques secrets
+          bien gardé”.</p>
+          <p>English : “As you wander around the ship’s computer system,
+          you come across an old project carried out a long time ago, in
+          a galaxy far, far away. The project had been stopped fairly
+          quickly and deleted from your internal Gitlab, but perhaps the
+          Docker image of the website you have in your possession still
+          has some well-kept secrets.”</p>
+
+        <a href="../assets/file/dockerflag.tar" download>dockerflag</a>
+
+
+          <hr />
+          <h4 id="discovery">1/ Discovery</h4>
+          <p>We know we’re going to have to work with Docker. Let’s take
+          a look at the “Dockerflag.tar” file we’ve been given.</p>
+          <p>Contents:</p>
+          <img src="../assets/images/dockerflag/content_dockerflag.jpeg" alt="content_dockerflag" style="max-width:600px; display:block; margin: 30px auto;">
+          <p>These different files correspond to the layers of a docker
+          image.</p>
+          <p>We also know that you can reconstruct a docker image using
+          a tar file.</p>
+          <div class="sourceCode" id="cb1"><pre
+          class="sourceCode sh"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sudo</span> docker load <span class="op">&lt;</span> dockerflag.tar</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="ex">Loaded</span> image: unset-repo/unset-image-name:latest</span></code></pre></div>
+          <p>Now that we have the docker image
+          (unset-repo/unset-image-name:latest), we can launch a
+          container.</p>
+          <div class="sourceCode" id="cb2"><pre
+          class="sourceCode sh"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sudo</span> docker run unset-repo/unset-image-name:latest</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a> <span class="ex">*</span> Serving Flask app <span class="st">&#39;app&#39;</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a> <span class="ex">*</span> Debug mode: off</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="ex">WARNING:</span> This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a> <span class="ex">*</span> Running on all addresses <span class="er">(</span><span class="ex">0.0.0.0</span><span class="kw">)</span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a> <span class="ex">*</span> Running on http://127.0.0.1:5000</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a> <span class="ex">*</span> Running on http://172.17.0.2:5000</span></code></pre></div>
+          <p>It’s a web server. When you visit the site, this is what
+          you see:</p>
+          <img src="../assets/images/dockerflag/website_dockerflag.jpeg" alt="website_dockerflag" style="max-width:1000px; display:block; margin: 30px auto;">
+          <p>Unfortunately, there’s not much of interest to be gleaned
+          from it.</p>
+          <h4 id="dive">2/ Dive</h4>
+          <p>In forensics, there’s a useful tool for analyzing docker
+          images: “dive”.</p>
+          <p><a
+          href="https://github.com/wagoodman/dive">https://github.com/wagoodman/dive</a> </p>
+          <p>It allows you to explore every layer of a docker image and
+          provide some very interesting details.</p>
+          <div class="sourceCode" id="cb3"><pre
+          class="sourceCode sh"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sudo</span> dive unset-repo/unset-image-name:latest</span></code></pre></div>
+          <img src="../assets/images/dockerflag/dive_dockerflag.jpeg" alt="dive_dockerflag" style="max-width:800px; display:block; margin: 30px auto;">
+          <ul>
+          <li>In the “Layers” section, you can see all the image
+          layers.</li>
+          <li>In the “Layers Details” section, you can see the details
+          of a layer, the interesting part being “Command”.</li>
+          <li>You can also view the contents (file system) of each layer
+          in “Current Layer Contents”.</li>
+          </ul>
+          <p>To understand how docker layers work here is an article
+          :</p>
+          <p><a
+          href="https://docs.docker.com/get-started/docker-concepts/building-images/understanding-image-layers/">https://docs.docker.com/get-started/docker-concepts/building-images/understanding-image-layers/</a> </p>
+          <p>The layers we’re interested in here are “COPY git_repos/ .”
+          and “RUN rm -rf .git”.</p>
+          <p>We would like to understand why the “.git” folder was
+          deleted and recover its contents. The dockerflag.tar file
+          contains all the layers. So we’re going to use “find” to find
+          out where this folder can be found after all the layers have
+          been extracted.</p>
+          <img src="../assets/images/dockerflag/aftertar_dockerflag.jpeg" alt="aftertar_dockerflag" style="max-width:500px; display:block; margin: 30px auto;">
+          <div class="sourceCode" id="cb5"><pre
+          class="sourceCode sh"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">find</span> ~/CTF404/forensic/dockerflag/dockerflag/ <span class="at">-name</span> <span class="st">&quot;.git&quot;</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="ex">/home/kali/CTF404/forensic/dockerflag/dockerflag/app</span> <span class="er">(</span><span class="ex">2</span><span class="kw">)</span><span class="ex">/.git</span></span></code></pre></div>
+          <p>We move to this location and perform an “ls -la”.</p>
+          <img src="../assets/images/dockerflag/lsla_dockerflag.jpeg" alt="lsla_dockerflag" style="max-width:500px; display:block; margin: 30px auto;">
+          <h4 id="back-to-the-past">3/ Back to the past</h4>
+          <p>We display the contents of “app.py” (the web server’s
+          python code).</p>
+          <div class="sourceCode" id="cb6"><pre
+          class="sourceCode sh"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span> app.py    </span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a> </span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="ex">import</span> os</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a><span class="ex">from</span> flask import Flask, render_template</span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a><span class="ex">from</span> dotenv import load_dotenv</span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a><span class="fu">load_dotenv()</span></span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a><span class="ex">SECRET_KEY</span> = os.getenv<span class="er">(</span><span class="st">&quot;SECRET&quot;</span><span class="ex">,</span> default=<span class="st">&quot;WHERE IS ZE DOTENV ?&quot;</span><span class="kw">)</span></span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a><span class="ex">app</span> = Flask<span class="er">(</span><span class="ex">__name__</span><span class="kw">)</span></span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a><span class="ex">@app.route</span><span class="er">(</span><span class="st">&#39;/&#39;</span><span class="kw">)</span></span>
+<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a><span class="ex">def</span> index<span class="er">(</span><span class="kw">)</span><span class="bu">:</span></span>
+<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="ex">render_template</span><span class="er">(</span><span class="st">&quot;index.html&quot;</span><span class="kw">)</span></span>
+<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-18"><a href="#cb6-18" aria-hidden="true" tabindex="-1"></a><span class="ex">app.run</span><span class="er">(</span><span class="va">debug</span><span class="op">=</span>False, <span class="va">host</span><span class="op">=</span><span class="st">&quot;0.0.0.0&quot;</span>, <span class="va">port</span><span class="op">=</span>5000<span class="kw">)</span></span></code></pre></div>
+          <p>We realize that there’s a “.env” file containing sensitive
+          elements, but it’s not present in the folder.</p>
+          <p>We now turn to the log file (HEAD) in the “.git”
+          folder.</p>
+          <img src="../assets/images/dockerflag/head_dockerflag.jpeg" alt="head_dockerflag" style="max-width:700px; display:block; margin: 30px auto;">
+          <p>A total of 5 commits were made to the application
+          repository. I assume that in one of these commits the “.env”
+          file was present.</p>
+          <p>If you look in the git command man, you’ll find a command
+          called “restore”, which allows you to undo unvalidated changes
+          in the working directory of a Git repository. Just what we
+          need.</p>
+          <p>Initialize git in the directory where the .git file is
+          located.</p>
+          <div class="sourceCode" id="cb7"><pre
+          class="sourceCode sh"><code class="sourceCode bash"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> init</span></code></pre></div>
+          <p>We’ll now need to go into the commits that have been made
+          with the “git checkout” command followed by its id (shown in
+          the image above).</p>
+          <div class="sourceCode" id="cb8"><pre
+          class="sourceCode sh"><code class="sourceCode bash"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sudo</span> git checkout 3d0717cb911d00b3e5033ba8c0c83df069e3e144</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a><span class="ex">Note:</span> switching to <span class="st">&#39;3d0717cb911d00b3e5033ba8c0c83df069e3e144&#39;</span>.</span></code></pre></div>
+          <p>Once set, you can use the command “git restore” followed by
+          a “.” (the dot indicates that the command applies to all files
+          and sub-directories in the current directory).</p>
+          <div class="sourceCode" id="cb9"><pre
+          class="sourceCode sh"><code class="sourceCode bash"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sudo</span> git restore .</span></code></pre></div>
+          <p>Repeat these 2 actions until you find the “.env” file:</p>
+            <img src="../assets/images/dockerflag/flag_dockerflag.jpeg" alt="flag_dockerflag" style="max-width:700px; display:block; margin: 30px auto;">
+          <p><strong>FLAG :
+          404CTF{492f3f38d6b5d3ca859514e250e25ba65935bcdd9f4f40c124b773fe536fee7d}</strong></p>
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; nomiskraw</p>
+    </footer>
+</body>
+</html>

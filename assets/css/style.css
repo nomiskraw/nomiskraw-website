@@ -276,3 +276,32 @@ project a:hover {
     background-color: #1a1a1a;
     color: #d4d4d4;
 }
+
+pre {
+    background-color: #f4f4f4;
+    padding: 10px;
+    border-radius: 5px;
+    overflow-x: auto;
+    font-family: monospace;
+    font-size: 1.2em;
+    margin: 1em 0;
+}
+
+code {
+    font-family: monospace;
+    background-color: #f4f4f4;
+    padding: 2px 4px;
+    border-radius: 3px;
+}
+
+p code, li code {
+    background-color: #f4f4f4;
+    padding: 2px 4px;
+    border-radius: 3px;
+    font-family: monospace;
+}
+
+pre code {
+    display: block;
+    overflow-x: auto;
+}
